@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.codewithfk.expensetracker.android
+package com.codewithfk.expensetracker.android.feature.add_expense
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -46,6 +46,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.codewithfk.expensetracker.android.R
+import com.codewithfk.expensetracker.android.Utils
 import com.codewithfk.expensetracker.android.data.model.ExpenseEntity
 import com.codewithfk.expensetracker.android.viewmodel.AddExpenseViewModel
 import com.codewithfk.expensetracker.android.viewmodel.AddExpenseViewModelFactory

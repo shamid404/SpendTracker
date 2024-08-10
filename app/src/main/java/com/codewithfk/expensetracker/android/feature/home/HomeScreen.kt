@@ -1,4 +1,4 @@
-package com.codewithfk.expensetracker.android
+package com.codewithfk.expensetracker.android.feature.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,11 +17,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,9 +38,8 @@ import com.codewithfk.expensetracker.android.ui.theme.Zinc
 import com.codewithfk.expensetracker.android.viewmodel.HomeViewModel
 import com.codewithfk.expensetracker.android.viewmodel.HomeViewModelFactory
 import com.codewithfk.expensetracker.android.widget.ExpenseTextView
-import android.graphics.Typeface
-import android.text.Layout
-import androidx.compose.material3.MaterialTheme
+import com.codewithfk.expensetracker.android.R
+import com.codewithfk.expensetracker.android.Utils
 
 
 @Composable
@@ -103,12 +99,11 @@ fun HomeScreen(navController: NavController) {
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
                         height = Dimension.fillToConstraints
-                    }, list = state.value,
-                viewModel
+                    }, list = state.value
             )
 
             Image(
-                painter = painterResource(id = android.R.drawable.ic_menu_add),
+                painter = painterResource(id = R.drawable.ic_add),
                 contentDescription = null,
                 modifier = Modifier
                     .constrainAs(add) {
@@ -117,6 +112,7 @@ fun HomeScreen(navController: NavController) {
                     }
                     .size(48.dp)
                     .clip(CircleShape)
+                    .background(Zinc)
                     .clickable {
                         navController.navigate("/add")
                     }
@@ -186,25 +182,31 @@ fun CardItem(
 
 
 @Composable
-fun TransactionList(modifier: Modifier, list: List<ExpenseEntity>, viewModel: HomeViewModel) {
+fun TransactionList(
+    modifier: Modifier,
+    list: List<ExpenseEntity>,
+    title: String = "Recent Transactions"
+) {
     LazyColumn(modifier = modifier.padding(horizontal = 16.dp)) {
         item {
             Column {
                 Box(modifier = modifier.fillMaxWidth()) {
                     ExpenseTextView(
-                        text = "Recent Transactions",
+                        text = title,
                         fontSize = 20.sp,
                     )
-                    ExpenseTextView(
-                        text = "See all",
-                        fontSize = 16.sp,
-                        modifier = Modifier.align(Alignment.CenterEnd)
-                    )
+                    if (title == "Recent Transactions") {
+                        ExpenseTextView(
+                            text = "See all",
+                            fontSize = 16.sp,
+                            modifier = Modifier.align(Alignment.CenterEnd)
+                        )
+                    }
                 }
             }
         }
         items(list) { item ->
-            val icon = viewModel?.getItemIcon(item)
+            val icon = Utils.getItemIcon(item)
             TransactionItem(
                 title = item.title,
                 amount = item.amount.toString(),

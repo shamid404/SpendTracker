@@ -1,5 +1,6 @@
 package com.codewithfk.expensetracker.android
 
+import com.codewithfk.expensetracker.android.data.model.ExpenseEntity
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -10,6 +11,11 @@ object Utils {
 
     fun formatDateToHumanReadableForm(dateInMillis: Long): String {
         val dateFormatter = SimpleDateFormat("dd/MM/YYYY", Locale.getDefault())
+        return dateFormatter.format(dateInMillis)
+    }
+
+    fun formatDateForChart(dateInMillis: Long): String {
+        val dateFormatter = SimpleDateFormat("dd-MMM", Locale.getDefault())
         return dateFormatter.format(dateInMillis)
     }
 
@@ -37,4 +43,16 @@ object Utils {
         println("Today is $date")
         return date.time
     }
+    fun getItemIcon(item: ExpenseEntity): Int {
+        return if (item.category == "Paypal") {
+            R.drawable.ic_paypal
+        } else if (item.category == "Netflix") {
+            R.drawable.ic_netflix
+        } else if (item.category == "Starbucks") {
+            R.drawable.ic_starbucks
+        } else {
+            R.drawable.ic_upwork
+        }
+    }
+
 }
