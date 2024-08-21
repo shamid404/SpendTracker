@@ -30,7 +30,9 @@ class HomeViewModel @Inject constructor(val dao: ExpenseDao) : ViewModel() {
     fun getTotalExpense(list: List<ExpenseEntity>): String {
         var total = 0.0
         for (expense in list) {
-            total += expense.amount
+            if (expense.type != "Income") {
+                total += expense.amount
+            }
         }
 
         return Utils.formatCurrency(total)
