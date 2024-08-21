@@ -38,11 +38,15 @@ import com.codewithfk.expensetracker.android.ui.theme.Zinc
 import com.codewithfk.expensetracker.android.viewmodel.HomeViewModel
 import com.codewithfk.expensetracker.android.widget.ExpenseTextView
 import com.codewithfk.expensetracker.android.R
+import com.codewithfk.expensetracker.android.ui.theme.Green
+import com.codewithfk.expensetracker.android.ui.theme.LightGrey
+import com.codewithfk.expensetracker.android.ui.theme.Red
+import com.codewithfk.expensetracker.android.ui.theme.Typography
 import com.codewithfk.expensetracker.android.utils.Utils
 
 
 @Composable
-fun HomeScreen(navController: NavController, viewModel: HomeViewModel= hiltViewModel()) {
+fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltViewModel()) {
     Surface(modifier = Modifier.fillMaxSize()) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
             val (nameRow, list, card, topBar, add) = createRefs()
@@ -61,11 +65,14 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel= hiltViewM
                     end.linkTo(parent.end)
                 }) {
                 Column(modifier = Modifier.align(Alignment.CenterStart)) {
-                    ExpenseTextView(text = "Good Afernoon", fontSize = 16.sp, color = Color.White)
+                    ExpenseTextView(
+                        text = "Good Afternoon",
+                        style = Typography.bodyMedium,
+                        color = Color.White
+                    )
                     ExpenseTextView(
                         text = "CodeWithFK",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
+                        style = Typography.titleLarge,
                         color = Color.White
                     )
                 }
@@ -140,10 +147,14 @@ fun CardItem(
                 .weight(1f)
         ) {
             Column {
-                ExpenseTextView(text = "Total Balance", fontSize = 16.sp, color = Color.White)
                 ExpenseTextView(
-                    text = balance, fontSize = 20.sp, color = Color.White,
-                    fontWeight = FontWeight.Bold
+                    text = "Total Balance",
+                    style = Typography.titleMedium,
+                    color = Color.White
+                )
+                Spacer(modifier = Modifier.size(8.dp))
+                ExpenseTextView(
+                    text = balance, style = Typography.headlineLarge, color = Color.White,
                 )
             }
             Image(
@@ -192,12 +203,12 @@ fun TransactionList(
                 Box(modifier = modifier.fillMaxWidth()) {
                     ExpenseTextView(
                         text = title,
-                        fontSize = 20.sp,
+                        style = Typography.titleLarge,
                     )
                     if (title == "Recent Transactions") {
                         ExpenseTextView(
                             text = "See all",
-                            fontSize = 16.sp,
+                            style = Typography.bodyMedium,
                             modifier = Modifier.align(Alignment.CenterEnd)
                                 .clickable {
                                     // Navigate to the All Transactions screen
@@ -206,16 +217,18 @@ fun TransactionList(
                         )
                     }
                 }
+                Spacer(modifier = Modifier.size(12.dp))
             }
         }
         items(list) { item ->
             val icon = Utils.getItemIcon(item)
+            val amount = if (item.type == "Income") item.amount else item.amount * -1
             TransactionItem(
                 title = item.title,
-                amount = item.amount.toString(),
-                icon = icon!!,
-                date = item.date,
-                color = if (item.type == "Income") Color.Green else Color.Red
+                amount = Utils.formatCurrency(amount),
+                icon = icon,
+                date = Utils.formatStringDateToMonthDayYear(item.date),
+                color = if (item.type == "Income") Green else Red
             )
         }
 
@@ -237,7 +250,7 @@ fun TransactionItem(
             .fillMaxWidth()
             .padding(vertical = 8.dp)
     ) {
-        Row() {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
                 painter = painterResource(id = icon),
                 contentDescription = null,
@@ -245,13 +258,15 @@ fun TransactionItem(
             )
             Spacer(modifier = Modifier.size(8.dp))
             Column {
-                ExpenseTextView(text = title, fontSize = 16.sp)
-                ExpenseTextView(text = date, fontSize = 12.sp)
+                ExpenseTextView(text = title, fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                Spacer(modifier = Modifier.size(8.dp))
+                ExpenseTextView(text = date, fontSize = 13.sp, color = LightGrey)
             }
         }
         ExpenseTextView(
-            text = "$currencySymbol$amount",
-            fontSize = 20.sp,
+            text = amount,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Medium,
             modifier = Modifier.align(Alignment.CenterEnd),
             color = color
         )
@@ -268,9 +283,10 @@ fun CardRowItem(modifier: Modifier, title: String, amount: String, imaget: Int) 
                 contentDescription = null,
             )
             Spacer(modifier = Modifier.size(8.dp))
-            ExpenseTextView(text = title, fontSize = 16.sp, color = Color.White)
+            ExpenseTextView(text = title, style = Typography.bodyLarge, color = Color.White)
         }
-        ExpenseTextView(text = amount, fontSize = 20.sp, color = Color.White)
+        Spacer(modifier = Modifier.size(4.dp))
+        ExpenseTextView(text = amount, style = Typography.titleLarge, color = Color.White)
     }
 }
 

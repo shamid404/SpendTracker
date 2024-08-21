@@ -41,6 +41,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -52,6 +53,7 @@ import androidx.navigation.compose.rememberNavController
 import com.codewithfk.expensetracker.android.R
 import com.codewithfk.expensetracker.android.utils.Utils
 import com.codewithfk.expensetracker.android.data.model.ExpenseEntity
+import com.codewithfk.expensetracker.android.ui.theme.InterFontFamily
 import com.codewithfk.expensetracker.android.viewmodel.AddExpenseViewModel
 import com.codewithfk.expensetracker.android.widget.ExpenseTextView
 import kotlinx.coroutines.launch
@@ -283,6 +285,7 @@ fun ExpenseDropDown(listOfItems: List<String>, onItemSelected: (item: String) ->
             modifier = Modifier
                 .fillMaxWidth()
                 .menuAnchor(),
+            textStyle = TextStyle(fontFamily = InterFontFamily),
             readOnly = true,
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded.value)
