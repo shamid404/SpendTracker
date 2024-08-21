@@ -62,11 +62,11 @@ object Utils {
     }
 
     fun getItemIcon(item: ExpenseEntity): Int {
-        return if (item.category == "Paypal") {
+        return if (item.title == "Paypal") {
             R.drawable.ic_paypal
-        } else if (item.category == "Netflix") {
+        } else if (item.title == "Netflix") {
             R.drawable.ic_netflix
-        } else if (item.category == "Starbucks") {
+        } else if (item.title == "Starbucks") {
             R.drawable.ic_starbucks
         } else {
             R.drawable.ic_upwork

@@ -28,7 +28,7 @@ import com.codewithfk.expensetracker.android.ui.theme.Zinc
 @Composable
 fun NavHostScreen() {
     val navController = rememberNavController()
-    var bottomBarVisibility by  remember {
+    var bottomBarVisibility by remember {
         mutableStateOf(true)
 
     }
@@ -53,9 +53,13 @@ fun NavHostScreen() {
                 HomeScreen(navController)
             }
 
-            composable(route = "/add") {
+            composable(route = "/add_income") {
                 bottomBarVisibility = false
-                AddExpense(navController)
+                AddExpense(navController, isIncome = true)
+            }
+            composable(route = "/add_exp") {
+                bottomBarVisibility = false
+                AddExpense(navController, isIncome = false)
             }
 
             composable(route = "/stats") {

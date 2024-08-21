@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor(val dao: ExpenseDao) : ViewModel() {
                 balance -= expense.amount
             }
         }
-        return "$ ${Utils.formatToDecimalValue(balance)}"
+        return Utils.formatCurrency(balance)
     }
 
     fun getTotalExpense(list: List<ExpenseEntity>): String {
@@ -33,7 +33,7 @@ class HomeViewModel @Inject constructor(val dao: ExpenseDao) : ViewModel() {
             total += expense.amount
         }
 
-        return "$ ${Utils.formatToDecimalValue(total)}"
+        return Utils.formatCurrency(total)
     }
 
     fun getTotalIncome(list: List<ExpenseEntity>): String {
@@ -43,7 +43,7 @@ class HomeViewModel @Inject constructor(val dao: ExpenseDao) : ViewModel() {
                 totalIncome += expense.amount
             }
         }
-        return "$ ${Utils.formatToDecimalValue(totalIncome)}"
+        return Utils.formatCurrency(totalIncome)
     }
 }
 
