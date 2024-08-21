@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import com.codewithfk.expensetracker.android.ui.theme.font
+import com.codewithfk.expensetracker.android.ui.theme.InterFontFamily
 
 @Composable
 fun ExpenseTextView(
@@ -24,7 +24,7 @@ fun ExpenseTextView(
     fontSize: TextUnit = TextUnit.Unspecified,
     fontStyle: FontStyle? = null,
     fontWeight: FontWeight? = null,
-    fontFamily: FontFamily? = font,
+    fontFamily: FontFamily? = InterFontFamily,
     letterSpacing: TextUnit = TextUnit.Unspecified,
     textDecoration: TextDecoration? = null,
     textAlign: TextAlign? = null,
