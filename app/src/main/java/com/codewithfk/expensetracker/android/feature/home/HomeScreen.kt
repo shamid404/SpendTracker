@@ -31,20 +31,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.codewithfk.expensetracker.android.data.model.ExpenseEntity
 import com.codewithfk.expensetracker.android.ui.theme.Zinc
 import com.codewithfk.expensetracker.android.viewmodel.HomeViewModel
-import com.codewithfk.expensetracker.android.viewmodel.HomeViewModelFactory
 import com.codewithfk.expensetracker.android.widget.ExpenseTextView
 import com.codewithfk.expensetracker.android.R
 import com.codewithfk.expensetracker.android.utils.Utils
 
 
 @Composable
-fun HomeScreen(navController: NavController) {
-    val viewModel = HomeViewModelFactory(LocalContext.current).create(HomeViewModel::class.java)
+fun HomeScreen(navController: NavController, viewModel: HomeViewModel= hiltViewModel()) {
     Surface(modifier = Modifier.fillMaxSize()) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
             val (nameRow, list, card, topBar, add) = createRefs()

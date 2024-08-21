@@ -6,9 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.codewithfk.expensetracker.android.data.ExpenseDatabase
 import com.codewithfk.expensetracker.android.data.dao.ExpenseDao
 import com.codewithfk.expensetracker.android.data.model.ExpenseEntity
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
-class AddExpenseViewModel(val dao: ExpenseDao) : ViewModel() {
+@HiltViewModel
+class AddExpenseViewModel @Inject constructor(val dao: ExpenseDao) : ViewModel() {
 
     suspend fun addExpense(expenseEntity: ExpenseEntity): Boolean {
         return try {
@@ -20,13 +23,4 @@ class AddExpenseViewModel(val dao: ExpenseDao) : ViewModel() {
     }
 }
 
-class AddExpenseViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(AddExpenseViewModel::class.java)) {
-            val dao = ExpenseDatabase.getInstance(context).expenseDao()
-            return AddExpenseViewModel(dao) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
 

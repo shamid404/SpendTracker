@@ -8,9 +8,12 @@ import com.codewithfk.expensetracker.android.data.ExpenseDatabase
 import com.codewithfk.expensetracker.android.data.dao.ExpenseDao
 import com.codewithfk.expensetracker.android.data.model.ExpenseSummary
 import com.github.mikephil.charting.data.Entry
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
-class StatsViewModel(val dao: ExpenseDao) : ViewModel() {
+@HiltViewModel
+class StatsViewModel @Inject constructor(val dao: ExpenseDao) : ViewModel() {
     val entries = dao.getAllExpenseByDate()
     val topEntries =  dao.getTopExpenses()
     fun getEntriesForChart(entries: List<ExpenseSummary>): List<Entry> {
@@ -23,12 +26,3 @@ class StatsViewModel(val dao: ExpenseDao) : ViewModel() {
     }
 }
 
-class StatsViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(StatsViewModel::class.java)) {
-            val dao = ExpenseDatabase.getInstance(context).expenseDao()
-            return StatsViewModel(dao) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}

@@ -44,21 +44,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.codewithfk.expensetracker.android.R
 import com.codewithfk.expensetracker.android.utils.Utils
 import com.codewithfk.expensetracker.android.data.model.ExpenseEntity
 import com.codewithfk.expensetracker.android.viewmodel.AddExpenseViewModel
-import com.codewithfk.expensetracker.android.viewmodel.AddExpenseViewModelFactory
 import com.codewithfk.expensetracker.android.widget.ExpenseTextView
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun AddExpense(navController: NavController) {
-    val viewModel =
-        AddExpenseViewModelFactory(LocalContext.current).create(AddExpenseViewModel::class.java)
+fun AddExpense(navController: NavController, viewModel: AddExpenseViewModel= hiltViewModel()) {
     val coroutineScope = rememberCoroutineScope()
     Surface(modifier = Modifier.fillMaxSize()) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {

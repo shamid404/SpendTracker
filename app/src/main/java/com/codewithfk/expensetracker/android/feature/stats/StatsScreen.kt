@@ -21,12 +21,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.codewithfk.expensetracker.android.R
 import com.codewithfk.expensetracker.android.utils.Utils
 import com.codewithfk.expensetracker.android.feature.home.TransactionList
 import com.codewithfk.expensetracker.android.viewmodel.StatsViewModel
-import com.codewithfk.expensetracker.android.viewmodel.StatsViewModelFactory
 import com.codewithfk.expensetracker.android.widget.ExpenseTextView
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -35,7 +35,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineDataSet
 
 @Composable
-fun StatsScreen(navController: NavController) {
+fun StatsScreen(navController: NavController, viewModel: StatsViewModel= hiltViewModel()) {
     Scaffold(topBar = {
         Box(
             modifier = Modifier
@@ -66,8 +66,6 @@ fun StatsScreen(navController: NavController) {
             )
         }
     }) {
-        val viewModel =
-            StatsViewModelFactory(navController.context).create(StatsViewModel::class.java)
         val dataState = viewModel.entries.collectAsState(emptyList())
         val topExpense = viewModel.topEntries.collectAsState(initial = emptyList())
         Column(modifier = Modifier.padding(it)) {

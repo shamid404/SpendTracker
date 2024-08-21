@@ -75,19 +75,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.compose.navigation)
     implementation(libs.dagger.hilt.compose)
-val firebaseauth_version ="21.0.3"
-    val firebasebom_version= "31.2.0"
-    val facebook_login= "15.2.0"
-    val playservices_version= "20.4.1"
-
-    implementation ("com.google.firebase:firebase-auth:$firebaseauth_version")
-    implementation ("com.google.firebase:firebase-auth-ktx:21.0.3:$firebaseauth_version")
-    implementation (platform("com.google.firebase:firebase-bom:$firebasebom_version"))
-    implementation ("com.google.firebase:firebase-auth-ktx:")
-    implementation ("com.facebook.android:facebook-login:$facebook_login")
-    implementation ("com.google.android.gms:play-services-auth:$playservices_version")
-    implementation ("com.google.firebase:firebase-auth")
-
 
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")

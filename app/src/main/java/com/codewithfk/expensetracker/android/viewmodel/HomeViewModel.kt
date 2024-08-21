@@ -7,9 +7,12 @@ import com.codewithfk.expensetracker.android.utils.Utils
 import com.codewithfk.expensetracker.android.data.ExpenseDatabase
 import com.codewithfk.expensetracker.android.data.dao.ExpenseDao
 import com.codewithfk.expensetracker.android.data.model.ExpenseEntity
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
-class HomeViewModel(val dao: ExpenseDao) : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(val dao: ExpenseDao) : ViewModel() {
     val expenses = dao.getAllExpense()
 
     fun getBalance(list: List<ExpenseEntity>): String {
@@ -44,12 +47,3 @@ class HomeViewModel(val dao: ExpenseDao) : ViewModel() {
     }
 }
 
-class HomeViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-            val dao = ExpenseDatabase.getInstance(context).expenseDao()
-            return HomeViewModel(dao) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
