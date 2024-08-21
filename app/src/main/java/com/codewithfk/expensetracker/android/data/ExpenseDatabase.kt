@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.codewithfk.expensetracker.android.data.dao.ExpenseDao
 import com.codewithfk.expensetracker.android.data.model.ExpenseEntity
@@ -15,7 +16,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
 
-@Database(entities = [ExpenseEntity::class], version = 1, exportSchema = false)
+@Database(entities = [ExpenseEntity::class], version = 2, exportSchema = false)
 @Singleton
 abstract class ExpenseDatabase : RoomDatabase() {
 
@@ -34,65 +35,41 @@ abstract class ExpenseDatabase : RoomDatabase() {
                     ExpenseDatabase::class.java,
                     DATABASE_NAME
                 )
+                    .addMigrations(MIGRATION_1_2)
                     .build()
                 INSTANCE = instance
                 instance
             }
         }
     }
+}
 
-    private class ExpenseDatabaseCallback(
-        private val scope: CoroutineScope,
-        private val daoProvider: Provider<ExpenseDao>
-    ) : RoomDatabase.Callback() {
+val MIGRATION_1_2 = object : Migration(1, 2) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL(
+            """
+            CREATE TABLE IF NOT EXISTS expense_table_new (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT NOT NULL,
+                amount REAL NOT NULL,
+                date TEXT NOT NULL,
+                type TEXT NOT NULL
+            )
+            """.trimIndent()
+        )
 
-        override fun onCreate(db: SupportSQLiteDatabase) {
-            super.onCreate(db)
-            // Initialize with basic data
-            scope.launch(Dispatchers.IO) {
-                daoProvider.get().let { dao ->
-                    dao.insertExpense(
-                        ExpenseEntity(
-                            id = null,
-                            title = "Salary",
-                            amount = 5000.40,
-                            date = "2021-08-01",
-                            category = "Salary",
-                            type = "Income"
-                        )
-                    )
-                    dao.insertExpense(
-                        ExpenseEntity(
-                            id = null,
-                            title = "Paypal",
-                            amount = 2000.50,
-                            date = "2021-08-01",
-                            category = "Paypal",
-                            type = "Income"
-                        )
-                    )
-                    dao.insertExpense(
-                        ExpenseEntity(
-                            id = null,
-                            title = "Netflix",
-                            amount = 100.43,
-                            date = "2021-08-01",
-                            category = "Netflix",
-                            type = "Expense"
-                        )
-                    )
-                    dao.insertExpense(
-                        ExpenseEntity(
-                            id = null,
-                            title = "Starbucks",
-                            amount = 400.56,
-                            date = "2021-08-02",
-                            category = "Starbucks",
-                            type = "Income"
-                        )
-                    )
-                }
-            }
-        }
+        // Step 2: Copy the data from the old table to the new table
+        database.execSQL(
+            """
+            INSERT INTO expense_table_new (id, title, amount, date, type)
+            SELECT id, title, amount, date, type FROM expense_table
+            """.trimIndent()
+        )
+
+        // Step 3: Drop the old table
+        database.execSQL("DROP TABLE expense_table")
+
+        // Step 4: Rename the new table to the original table name
+        database.execSQL("ALTER TABLE expense_table_new RENAME TO expense_table")
     }
 }

@@ -1,8 +1,10 @@
 package com.codewithfk.expensetracker.android.feature.home
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,11 +19,17 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -110,22 +118,72 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
                     }, list = state.value,navController = navController
             )
 
-            SmallFloatingActionButton(
-                onClick = { navController.navigate("/add") },
+            Box(
                 modifier = Modifier
-                    .padding(8.dp)
-                    .size(56.dp)
+                    .fillMaxSize()
                     .constrainAs(add) {
                         bottom.linkTo(parent.bottom)
                         end.linkTo(parent.end)
+                    }, contentAlignment = Alignment.BottomEnd
+            ) {
+                MultiFloatingActionButton(modifier = Modifier, navController = navController)
+            }
+        }
+    }
+}
+
+@Composable
+fun MultiFloatingActionButton(modifier: Modifier, navController: NavController) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
+        Column(
+            horizontalAlignment = Alignment.End,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // Secondary FABs
+            AnimatedVisibility(visible = expanded) {
+                Column(horizontalAlignment = Alignment.End) {
+                    SmallFloatingActionButton(
+                        onClick = { navController.navigate("/add_income") },
+                        modifier = Modifier.size(48.dp),
+                        containerColor = MaterialTheme.colorScheme.primary
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_income),
+                            contentDescription = "Edit"
+                        )
                     }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    SmallFloatingActionButton(
+                        onClick = { navController.navigate("/add_exp") },
+                        modifier = Modifier.size(48.dp),
+                        containerColor = MaterialTheme.colorScheme.primary
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_expense),
+                            contentDescription = "Edit"
+                        )
+
+                    }
+                }
+            }
+
+            // Main FAB
+            SmallFloatingActionButton(
+                onClick = {
+                    expanded = !expanded
+                },
+                modifier = Modifier
+                    .padding(8.dp)
+                    .size(56.dp)
+
             ) {
                 Icon(Icons.Filled.Add, "Small floating action button.")
             }
         }
     }
 }
-
 
 @Composable
 fun CardItem(
