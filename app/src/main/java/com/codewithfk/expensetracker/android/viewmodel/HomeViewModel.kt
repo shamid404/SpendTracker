@@ -3,8 +3,7 @@ package com.codewithfk.expensetracker.android.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.codewithfk.expensetracker.android.R
-import com.codewithfk.expensetracker.android.Utils
+import com.codewithfk.expensetracker.android.utils.Utils
 import com.codewithfk.expensetracker.android.data.ExpenseDatabase
 import com.codewithfk.expensetracker.android.data.dao.ExpenseDao
 import com.codewithfk.expensetracker.android.data.model.ExpenseEntity

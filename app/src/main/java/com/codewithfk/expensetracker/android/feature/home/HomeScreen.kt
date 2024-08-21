@@ -39,7 +39,7 @@ import com.codewithfk.expensetracker.android.viewmodel.HomeViewModel
 import com.codewithfk.expensetracker.android.viewmodel.HomeViewModelFactory
 import com.codewithfk.expensetracker.android.widget.ExpenseTextView
 import com.codewithfk.expensetracker.android.R
-import com.codewithfk.expensetracker.android.Utils
+import com.codewithfk.expensetracker.android.utils.Utils
 
 
 @Composable

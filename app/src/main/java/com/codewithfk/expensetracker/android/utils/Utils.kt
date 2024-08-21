@@ -1,5 +1,6 @@
-package com.codewithfk.expensetracker.android
+package com.codewithfk.expensetracker.android.utils
 
+import com.codewithfk.expensetracker.android.R
 import com.codewithfk.expensetracker.android.data.model.ExpenseEntity
 import java.text.ParseException
 import java.text.SimpleDateFormat

@@ -10,6 +10,10 @@ activityCompose = "1.7.0"
 composeBom = "2023.08.00"
 constraint-compose = "1.0.1"
 constraintlayout = "2.1.4"
+hilt-compose="1.2.0"
+dagger-hilt= "2.48"
+compose-navigation = "2.7.7"
+firebaseDatabaseKtx = "21.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -22,12 +26,18 @@ androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", versi
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+dagger-hilt-andriod={module="com.google.dagger:hilt-android",version.ref="dagger-hilt"}
+dagger-hilt-compiler={module="com.google.dagger:hilt-android-compiler",version.ref="dagger-hilt"}
+dagger-hilt-compose= {module="androidx.hilt:hilt-navigation-compose",version.ref="hilt-compose" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+compose-navigation = {module = "androidx.navigation:navigation-compose" , version.ref = "compose-navigation"}
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+firebase-database-ktx = { group = "com.google.firebase", name = "firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+dagger-hilt= {id="com.google.dagger.hilt.android", version.ref="dagger-hilt"}
 

@@ -47,7 +47,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.codewithfk.expensetracker.android.R
-import com.codewithfk.expensetracker.android.Utils
+import com.codewithfk.expensetracker.android.utils.Utils
 import com.codewithfk.expensetracker.android.data.model.ExpenseEntity
 import com.codewithfk.expensetracker.android.viewmodel.AddExpenseViewModel
 import com.codewithfk.expensetracker.android.viewmodel.AddExpenseViewModelFactory
