@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     kotlin("kapt")
+    alias(libs.plugins.dagger.hilt)
 }
 
 android {
@@ -62,13 +63,18 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.constraintlayout)
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+    implementation(libs.firebase.database.ktx)
     testImplementation(libs.junit)
+    implementation(libs.dagger.hilt.andriod)
+    kapt(libs.dagger.hilt.compiler)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.compose.navigation)
+    implementation(libs.dagger.hilt.compose)
 
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
