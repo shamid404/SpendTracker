@@ -14,8 +14,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Icon
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -107,21 +110,18 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
                     }, list = state.value,navController = navController
             )
 
-            Image(
-                painter = painterResource(id = R.drawable.ic_add),
-                contentDescription = null,
+            SmallFloatingActionButton(
+                onClick = { navController.navigate("/add") },
                 modifier = Modifier
+                    .padding(8.dp)
+                    .size(56.dp)
                     .constrainAs(add) {
                         bottom.linkTo(parent.bottom)
                         end.linkTo(parent.end)
                     }
-                    .size(48.dp)
-                    .clip(CircleShape)
-                    .background(Zinc)
-                    .clickable {
-                        navController.navigate("/add")
-                    }
-            )
+            ) {
+                Icon(Icons.Filled.Add, "Small floating action button.")
+            }
         }
     }
 }
@@ -254,12 +254,12 @@ fun TransactionItem(
             Image(
                 painter = painterResource(id = icon),
                 contentDescription = null,
-                modifier = Modifier.size(50.dp)
+                modifier = Modifier.size(51.dp)
             )
             Spacer(modifier = Modifier.size(8.dp))
             Column {
                 ExpenseTextView(text = title, fontSize = 16.sp, fontWeight = FontWeight.Medium)
-                Spacer(modifier = Modifier.size(8.dp))
+                Spacer(modifier = Modifier.size(6.dp))
                 ExpenseTextView(text = date, fontSize = 13.sp, color = LightGrey)
             }
         }
