@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -98,7 +97,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel= hiltViewM
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
                         height = Dimension.fillToConstraints
-                    }, list = state.value
+                    }, list = state.value,navController = navController
             )
 
             Image(
@@ -184,7 +183,8 @@ fun CardItem(
 fun TransactionList(
     modifier: Modifier,
     list: List<ExpenseEntity>,
-    title: String = "Recent Transactions"
+    title: String = "Recent Transactions",
+            navController: NavController
 ) {
     LazyColumn(modifier = modifier.padding(horizontal = 16.dp)) {
         item {
@@ -199,6 +199,10 @@ fun TransactionList(
                             text = "See all",
                             fontSize = 16.sp,
                             modifier = Modifier.align(Alignment.CenterEnd)
+                                .clickable {
+                                    // Navigate to the All Transactions screen
+                                    navController.navigate("/all_transactions")
+                                }
                         )
                     }
                 }
@@ -224,7 +228,8 @@ fun TransactionItem(
     amount: String,
     icon: Int,
     date: String,
-    color: Color
+    color: Color,
+    currencySymbol: String = "$"
 ) {
 
     Box(
@@ -245,7 +250,7 @@ fun TransactionItem(
             }
         }
         ExpenseTextView(
-            text = amount,
+            text = "$currencySymbol$amount",
             fontSize = 20.sp,
             modifier = Modifier.align(Alignment.CenterEnd),
             color = color
