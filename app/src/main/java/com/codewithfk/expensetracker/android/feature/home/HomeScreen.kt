@@ -1,6 +1,11 @@
 package com.codewithfk.expensetracker.android.feature.home
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.TweenSpec
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -115,7 +120,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
                         height = Dimension.fillToConstraints
-                    }, list = state.value,navController = navController
+                    }, list = state.value, navController = navController
             )
 
             Box(
@@ -248,12 +253,13 @@ fun CardItem(
 }
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TransactionList(
     modifier: Modifier,
     list: List<ExpenseEntity>,
     title: String = "Recent Transactions",
-            navController: NavController
+    navController: NavController
 ) {
     LazyColumn(modifier = modifier.padding(horizontal = 16.dp)) {
         item {
@@ -267,7 +273,8 @@ fun TransactionList(
                         ExpenseTextView(
                             text = "See all",
                             style = Typography.bodyMedium,
-                            modifier = Modifier.align(Alignment.CenterEnd)
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
                                 .clickable {
                                     // Navigate to the All Transactions screen
                                     navController.navigate("/all_transactions")
@@ -278,16 +285,20 @@ fun TransactionList(
                 Spacer(modifier = Modifier.size(12.dp))
             }
         }
-        items(list) { item ->
+        items(items = list,
+            key = { item -> item.id ?: 0 }) { item ->
             val icon = Utils.getItemIcon(item)
             val amount = if (item.type == "Income") item.amount else item.amount * -1
-            TransactionItem(
-                title = item.title,
-                amount = Utils.formatCurrency(amount),
-                icon = icon,
-                date = Utils.formatStringDateToMonthDayYear(item.date),
-                color = if (item.type == "Income") Green else Red
-            )
+
+               TransactionItem(
+                   title = item.title,
+                   amount = Utils.formatCurrency(amount),
+                   icon = icon,
+                   date = Utils.formatStringDateToMonthDayYear(item.date),
+                   color = if (item.type == "Income") Green else Red,
+                   Modifier.animateItem()
+               )
+
         }
 
     }
@@ -300,11 +311,11 @@ fun TransactionItem(
     icon: Int,
     date: String,
     color: Color,
-    currencySymbol: String = "$"
+    modifier: Modifier
 ) {
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
     ) {
