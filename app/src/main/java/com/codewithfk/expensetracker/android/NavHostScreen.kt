@@ -23,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.codewithfk.expensetracker.android.feature.add_expense.AddExpense
 import com.codewithfk.expensetracker.android.feature.home.HomeScreen
 import com.codewithfk.expensetracker.android.feature.stats.StatsScreen
+import com.codewithfk.expensetracker.android.feature.transactionlist.TransactionListScreen
 import com.codewithfk.expensetracker.android.ui.theme.Zinc
 
 @Composable
@@ -65,6 +66,10 @@ fun NavHostScreen() {
             composable(route = "/stats") {
                 bottomBarVisibility = true
                 StatsScreen(navController)
+            }
+            composable(route = "/all_transactions") {
+                bottomBarVisibility = true // Show the bottom bar if you want it visible
+                TransactionListScreen(navController)
             }
         }
     }

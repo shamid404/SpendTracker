@@ -75,7 +75,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.compose.navigation)
     implementation(libs.dagger.hilt.compose)
-
+    implementation("androidx.compose.foundation:foundation:1.7.0-beta07")
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")

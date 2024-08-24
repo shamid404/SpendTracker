@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +20,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -76,6 +78,7 @@ fun AddExpense(
     viewModel: AddExpenseViewModel = hiltViewModel()
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val menuExpanded = remember { mutableStateOf(false) }
     Surface(modifier = Modifier.fillMaxSize()) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
             val (nameRow, list, card, topBar) = createRefs()
@@ -94,7 +97,12 @@ fun AddExpense(
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }) {
-                Image(painter = painterResource(id = R.drawable.ic_back), contentDescription = null)
+                Image(painter = painterResource(id = R.drawable.ic_back), contentDescription = null,
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .clickable {
+                        navController.popBackStack() // Navigate back
+                    })
                 ExpenseTextView(
                     text = "Add ${if (isIncome) "Income" else "Expense"}",
                     style = Typography.titleLarge,
@@ -103,11 +111,38 @@ fun AddExpense(
                         .padding(16.dp)
                         .align(Alignment.Center)
                 )
-                Image(
-                    painter = painterResource(id = R.drawable.dots_menu),
-                    contentDescription = null,
-                    modifier = Modifier.align(Alignment.CenterEnd)
-                )
+                Box(modifier = Modifier.align(Alignment.CenterEnd)) {
+                    Image(
+                        painter = painterResource(id = R.drawable.dots_menu),
+                        contentDescription = null,
+                        modifier = Modifier.align(Alignment.CenterEnd)
+                            .clickable {
+                                menuExpanded.value = true // Expand the menu
+                            }
+                    )
+                    DropdownMenu(
+                        expanded = menuExpanded.value,
+                        onDismissRequest = { menuExpanded.value = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { ExpenseTextView(text = "Profile") },
+                            onClick = {
+                                menuExpanded.value = false
+                                // Navigate to profile screen
+                                // navController.navigate("profile_route")
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { ExpenseTextView(text = "Settings") },
+                            onClick = {
+                                menuExpanded.value = false
+                                // Navigate to settings screen
+                                // navController.navigate("settings_route")
+                            }
+                        )
+                    }
+                }
+
             }
             DataForm(modifier = Modifier.constrainAs(card) {
                 top.linkTo(nameRow.bottom)
