@@ -1,6 +1,7 @@
 package com.codewithfk.expensetracker.android.feature.home
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.tween
