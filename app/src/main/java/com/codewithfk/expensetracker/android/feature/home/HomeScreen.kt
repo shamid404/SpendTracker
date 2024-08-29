@@ -25,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,6 +49,9 @@ import com.codewithfk.expensetracker.android.data.model.ExpenseEntity
 import com.codewithfk.expensetracker.android.ui.theme.Zinc
 import com.codewithfk.expensetracker.android.widget.ExpenseTextView
 import com.codewithfk.expensetracker.android.R
+import com.codewithfk.expensetracker.android.base.AddExpenseNavigationEvent
+import com.codewithfk.expensetracker.android.base.HomeNavigationEvent
+import com.codewithfk.expensetracker.android.base.NavigationEvent
 import com.codewithfk.expensetracker.android.ui.theme.Green
 import com.codewithfk.expensetracker.android.ui.theme.LightGrey
 import com.codewithfk.expensetracker.android.ui.theme.Red
@@ -57,6 +61,27 @@ import com.codewithfk.expensetracker.android.utils.Utils
 
 @Composable
 fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltViewModel()) {
+    LaunchedEffect(Unit) {
+        viewModel.navigationEvent.collect { event ->
+            when (event) {
+                NavigationEvent.NavigateBack -> navController.popBackStack()
+                HomeNavigationEvent.NavigateToSeeAll -> {
+                    navController.navigate("/all_transactions")
+                }
+
+                HomeNavigationEvent.NavigateToAddIncome -> {
+                    navController.navigate("/add_income")
+                }
+
+                HomeNavigationEvent.NavigateToAddExpense -> {
+                    navController.navigate("/add_exp")
+                }
+
+                else -> {}
+            }
+        }
+    }
+
     Surface(modifier = Modifier.fillMaxSize()) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
             val (nameRow, list, card, topBar, add) = createRefs()
@@ -114,7 +139,9 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
                         height = Dimension.fillToConstraints
-                    }, list = state.value, navController = navController
+                    }, list = state.value, onSeeAllClicked = {
+                    viewModel.onEvent(HomeUiEvent.OnSeeAllClicked)
+                }
             )
 
             Box(
@@ -125,14 +152,22 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
                         end.linkTo(parent.end)
                     }, contentAlignment = Alignment.BottomEnd
             ) {
-                MultiFloatingActionButton(modifier = Modifier, navController = navController)
+                MultiFloatingActionButton(modifier = Modifier, {
+                    viewModel.onEvent(HomeUiEvent.OnAddExpenseClicked)
+                }, {
+                    viewModel.onEvent(HomeUiEvent.OnAddIncomeClicked)
+                })
             }
         }
     }
 }
 
 @Composable
-fun MultiFloatingActionButton(modifier: Modifier, navController: NavController) {
+fun MultiFloatingActionButton(
+    modifier: Modifier,
+    onAddExpenseClicked: () -> Unit,
+    onAddIncomeClicked: () -> Unit
+) {
     var expanded by remember { mutableStateOf(false) }
 
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
@@ -144,7 +179,9 @@ fun MultiFloatingActionButton(modifier: Modifier, navController: NavController) 
             AnimatedVisibility(visible = expanded) {
                 Column(horizontalAlignment = Alignment.End) {
                     SmallFloatingActionButton(
-                        onClick = { navController.navigate("/add_income") },
+                        onClick = {
+                            onAddIncomeClicked.invoke()
+                        },
                         modifier = Modifier.size(48.dp),
                         containerColor = MaterialTheme.colorScheme.primary
                     ) {
@@ -155,7 +192,9 @@ fun MultiFloatingActionButton(modifier: Modifier, navController: NavController) 
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     SmallFloatingActionButton(
-                        onClick = { navController.navigate("/add_exp") },
+                        onClick = {
+                            onAddExpenseClicked.invoke()
+                        },
                         modifier = Modifier.size(48.dp),
                         containerColor = MaterialTheme.colorScheme.primary
                     ) {
@@ -167,7 +206,6 @@ fun MultiFloatingActionButton(modifier: Modifier, navController: NavController) 
                     }
                 }
             }
-
             // Main FAB
             SmallFloatingActionButton(
                 onClick = {
@@ -176,7 +214,6 @@ fun MultiFloatingActionButton(modifier: Modifier, navController: NavController) 
                 modifier = Modifier
                     .padding(8.dp)
                     .size(56.dp)
-
             ) {
                 Icon(Icons.Filled.Add, "Small floating action button.")
             }
@@ -247,13 +284,12 @@ fun CardItem(
 }
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TransactionList(
     modifier: Modifier,
     list: List<ExpenseEntity>,
     title: String = "Recent Transactions",
-    navController: NavController
+    onSeeAllClicked: () -> Unit
 ) {
     LazyColumn(modifier = modifier.padding(horizontal = 16.dp)) {
         item {
@@ -270,8 +306,7 @@ fun TransactionList(
                             modifier = Modifier
                                 .align(Alignment.CenterEnd)
                                 .clickable {
-                                    // Navigate to the All Transactions screen
-                                    navController.navigate("/all_transactions")
+                                    onSeeAllClicked.invoke()
                                 }
                         )
                     }
@@ -284,17 +319,15 @@ fun TransactionList(
             val icon = Utils.getItemIcon(item)
             val amount = if (item.type == "Income") item.amount else item.amount * -1
 
-               TransactionItem(
-                   title = item.title,
-                   amount = Utils.formatCurrency(amount),
-                   icon = icon,
-                   date = Utils.formatStringDateToMonthDayYear(item.date),
-                   color = if (item.type == "Income") Green else Red,
-                   Modifier.animateItem()
-               )
-
+            TransactionItem(
+                title = item.title,
+                amount = Utils.formatCurrency(amount),
+                icon = icon,
+                date = Utils.formatStringDateToMonthDayYear(item.date),
+                color = if (item.type == "Income") Green else Red,
+                Modifier
+            )
         }
-
     }
 }
 
