@@ -26,7 +26,6 @@ import androidx.navigation.NavController
 import com.codewithfk.expensetracker.android.R
 import com.codewithfk.expensetracker.android.utils.Utils
 import com.codewithfk.expensetracker.android.feature.home.TransactionList
-import com.codewithfk.expensetracker.android.viewmodel.StatsViewModel
 import com.codewithfk.expensetracker.android.widget.ExpenseTextView
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -35,7 +34,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineDataSet
 
 @Composable
-fun StatsScreen(navController: NavController, viewModel: StatsViewModel= hiltViewModel()) {
+fun StatsScreen(navController: NavController, viewModel: StatsViewModel = hiltViewModel()) {
     Scaffold(topBar = {
         Box(
             modifier = Modifier
@@ -72,7 +71,7 @@ fun StatsScreen(navController: NavController, viewModel: StatsViewModel= hiltVie
             val entries = viewModel.getEntriesForChart(dataState.value)
             LineChart(entries = entries)
             Spacer(modifier = Modifier.height(16.dp))
-            TransactionList(Modifier, list = topExpense.value, "Top Spending",navController)
+            TransactionList(Modifier, list = topExpense.value, "Top Spending", onSeeAllClicked = {})
         }
     }
 }
