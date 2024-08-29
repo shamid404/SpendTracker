@@ -1,11 +1,6 @@
 package com.codewithfk.expensetracker.android.feature.home
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.TweenSpec
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,7 +20,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallFloatingActionButton
@@ -52,7 +46,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.codewithfk.expensetracker.android.data.model.ExpenseEntity
 import com.codewithfk.expensetracker.android.ui.theme.Zinc
-import com.codewithfk.expensetracker.android.viewmodel.HomeViewModel
 import com.codewithfk.expensetracker.android.widget.ExpenseTextView
 import com.codewithfk.expensetracker.android.R
 import com.codewithfk.expensetracker.android.ui.theme.Green
