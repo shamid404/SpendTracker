@@ -232,7 +232,7 @@ fun DataForm(
             value = amount.value,
             onValueChange = { newValue ->
                 amount.value = newValue.filter { it.isDigit() || it == '.' }
-            },
+            }, textStyle = TextStyle(color = Color.Black),
             visualTransformation = { text ->
                 val out = "$" + text.text
                 val currencyOffsetTranslator = object : OffsetMapping {
@@ -251,7 +251,11 @@ fun DataForm(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             placeholder = { ExpenseTextView(text = "Enter amount") },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = MaterialTheme.colorScheme.primary,
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.Black,
+                disabledBorderColor = Color.Black, disabledTextColor = Color.Black,
+                disabledPlaceholderColor = Color.Black,
+                focusedTextColor = Color.Black,
             )
         )
         Spacer(modifier = Modifier.size(24.dp))
@@ -338,12 +342,6 @@ fun ExpenseDropDown(listOfItems: List<String>, onItemSelected: (item: String) ->
     val selectedItem = remember {
         mutableStateOf(listOfItems[0])
     }
-    val textFieldColors = OutlinedTextFieldDefaults.colors(
-        focusedBorderColor = Color.Black,
-        unfocusedBorderColor = Color.Black,
-        disabledBorderColor = Color.Black, disabledTextColor = Color.Black,
-        disabledPlaceholderColor = Color.Black,
-    )
     ExposedDropdownMenuBox(expanded = expanded.value, onExpandedChange = { expanded.value = it }) {
         OutlinedTextField(
             value = selectedItem.value,
@@ -351,13 +349,21 @@ fun ExpenseDropDown(listOfItems: List<String>, onItemSelected: (item: String) ->
             modifier = Modifier
                 .fillMaxWidth()
                 .menuAnchor(),
-            textStyle = TextStyle(fontFamily = InterFontFamily),
+            textStyle = TextStyle(fontFamily = InterFontFamily, color = Color.Black),
             readOnly = true,
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded.value)
             },
-            colors = textFieldColors,
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(8.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.Black,
+                disabledBorderColor = Color.Black, disabledTextColor = Color.Black,
+                disabledPlaceholderColor = Color.Black,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black,
+
+            )
         )
         ExposedDropdownMenu(expanded = expanded.value, onDismissRequest = { }) {
             listOfItems.forEach {

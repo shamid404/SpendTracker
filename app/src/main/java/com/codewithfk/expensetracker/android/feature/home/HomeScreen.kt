@@ -177,45 +177,57 @@ fun MultiFloatingActionButton(
         ) {
             // Secondary FABs
             AnimatedVisibility(visible = expanded) {
-                Column(horizontalAlignment = Alignment.End) {
-                    SmallFloatingActionButton(
-                        onClick = {
-                            onAddIncomeClicked.invoke()
-                        },
-                        modifier = Modifier.size(48.dp),
-                        containerColor = MaterialTheme.colorScheme.primary
+                Column(horizontalAlignment = Alignment.End, modifier = Modifier.padding(16.dp)) {
+                    Box(
+                        modifier = Modifier
+                            .size(48.dp)
+                            .background(color = Zinc, shape = RoundedCornerShape(12.dp))
+                            .clickable {
+                                onAddIncomeClicked.invoke()
+                            },
+                        contentAlignment = Alignment.Center
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_income),
-                            contentDescription = "Edit"
+                        Icon(
+                            painter = painterResource(R.drawable.ic_income),
+                            contentDescription = "Add Income",
+                            tint = Color.White
                         )
                     }
                     Spacer(modifier = Modifier.height(16.dp))
-                    SmallFloatingActionButton(
-                        onClick = {
-                            onAddExpenseClicked.invoke()
-                        },
-                        modifier = Modifier.size(48.dp),
-                        containerColor = MaterialTheme.colorScheme.primary
+                    Box(
+                        modifier = Modifier
+                            .size(48.dp)
+                            .background(color = Zinc, shape = RoundedCornerShape(12.dp))
+                            .clickable {
+                                onAddExpenseClicked.invoke()
+                            },
+                        contentAlignment = Alignment.Center
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_expense),
-                            contentDescription = "Edit"
+                        Icon(
+                            painter = painterResource(R.drawable.ic_expense),
+                            contentDescription = "Add Expense",
+                            tint = Color.White
                         )
-
                     }
                 }
             }
             // Main FAB
-            SmallFloatingActionButton(
-                onClick = {
-                    expanded = !expanded
-                },
+            Box(
                 modifier = Modifier
                     .padding(8.dp)
-                    .size(56.dp)
+                    .size(60.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(color = Zinc)
+                    .clickable {
+                        expanded = !expanded
+                    },
+                contentAlignment = Alignment.Center
             ) {
-                Icon(Icons.Filled.Add, "Small floating action button.")
+                Image(
+                    painter = painterResource(R.drawable.ic_addbutton),
+                    contentDescription = "small floating action button",
+                    modifier = Modifier.size(40.dp)
+                )
             }
         }
     }
