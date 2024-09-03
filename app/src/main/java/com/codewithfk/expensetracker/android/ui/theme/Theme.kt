@@ -1,6 +1,7 @@
 package com.codewithfk.expensetracker.android.ui.theme
 
 import android.app.Activity
+import android.content.res.Resources.Theme
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -10,21 +11,25 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Zinc,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = ThemeColors.Night.primary,
+    secondary = ThemeColors.Night.secondary,
+    tertiary = ThemeColors.Night.tertiary,
+    onPrimary = ThemeColors.Night.text,
+    outline = ThemeColors.Night.text
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Zinc,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = ThemeColors.Day.primary,
+    secondary = ThemeColors.Day.secondary,
+    tertiary = ThemeColors.Day.tertiary,
+    onPrimary = ThemeColors.Day.text
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),

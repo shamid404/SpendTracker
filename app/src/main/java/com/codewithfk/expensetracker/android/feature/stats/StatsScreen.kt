@@ -2,18 +2,21 @@ package com.codewithfk.expensetracker.android.feature.stats
 
 import android.view.LayoutInflater
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -46,8 +49,10 @@ fun StatsScreen(navController: NavController, viewModel: StatsViewModel = hiltVi
                 contentDescription = null,
                 modifier = Modifier.align(
                     Alignment.CenterStart
-                ),
-                colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color.Black)
+                ).clickable {
+                    navController.navigateUp()
+                },
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.outline)
             )
             ExpenseTextView(
                 text = "Statistics",
