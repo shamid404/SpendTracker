@@ -74,10 +74,6 @@ Here are some screenshots of the Expense Tracker app in action:
 
 Contributions are welcome! Feel free to open issues or submit pull requests to help improve this project.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## Contact
 
 For any queries or suggestions, feel free to contact me at [furqanullah717@gmail.com](mailto:furqanullah717@gmail.com).
